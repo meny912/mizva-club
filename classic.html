@@ -249,6 +249,7 @@ const CIRCLES=[{n:'Tempelgasse 7',m:48,s:1210},{n:'Jugend Wien',m:132,s:980},{n:
 
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 let S=load()||{name:'',onboarded:false,done:{},posts:SEED_POSTS,liked:{},joined:false,mitzvot:DEFAULT_MITZVOT,challenge:DEFAULT_CHALLENGE,obStep:0,goal:15};
+if(!S.onboarded){S.onboarded=true;S.name=S.name||'Gast'}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
 let tab='heute';

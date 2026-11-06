@@ -221,6 +221,7 @@ const CIRCLES=[{n:'Tempelgasse 7',m:48,s:1210},{n:'Jugend Wien',m:132,s:980},{n:
 
 function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
 let S=load()||{name:'',onboarded:false,done:{},posts:SEED_POSTS,liked:{},joined:false,mitzvot:DEFAULT_MITZVOT,challenge:DEFAULT_CHALLENGE,following:[],obStep:0,goal:7};
+if(!S.onboarded){S.onboarded=true;S.name=S.name||'Gast'}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
 let tab='heute';
@@ -406,6 +407,7 @@ function vSettings(){return `<div class="row" style="margin-bottom:10px"><button
  <div class="lab">ERINNERUNGEN</div><div class="card list"><div class="it">Tägliche Erinnerung<span class="muted">08:00 ›</span></div></div>
  <div class="lab">PRIVATSPHÄRE</div><div class="card list"><div class="it"><div>Privates Konto<div class="muted small">Nur bestätigte Follower sehen deine Mizwot.</div></div><span>○</span></div><div class="it">Blockierte Nutzer<span>›</span></div></div>
  <div class="lab">VERWALTUNG</div><div class="card list"><div class="it" style="cursor:pointer" onclick="go('admin')"><div><span class="tag">ADMIN</span> Club verwalten<div class="muted small">Mizwot, Texte, Challenge und Beiträge bearbeiten.</div></div><span>›</span></div></div>
+ <div class="lab">VORSCHAU</div><div class="card list"><div class="it" style="cursor:pointer" onclick="S.onboarded=false;S.obStep=0;save();render()">Einführung ansehen<span>›</span></div></div>
  <div class="lab">RECHTLICHES</div><div class="card list"><div class="it">Datenschutz<span>›</span></div><div class="it">Nutzungsbedingungen<span>›</span></div></div>
  <button class="btn soft" style="margin-top:20px" onclick="if(confirm('Prototyp zurücksetzen? Alle Demo-Daten werden gelöscht.')){try{localStorage.removeItem('${KEY}')}catch(e){}location.reload()}">Prototyp zurücksetzen</button>`}
 
