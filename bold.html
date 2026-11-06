@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F7F5F0">
+<title>mizva club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F5F0; --ink:#111; --ink2:#5E5E5A; --line:#111;
+  --blue:#2B4BFF; --orange:#FF5A1F; --lime:#C6F432; --yellow:#FFD43B; --lilac:#C9B6FF; --sky:#8FD3FF; --pink:#FF9EC7;
+  --r:18px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:#E8E5DE;font-family:"Bricolage Grotesque",system-ui,sans-serif;color:var(--ink);font-optical-sizing:auto}
+#app{max-width:430px;margin:0 auto;min-height:100vh;background:var(--paper);position:relative;overflow-x:hidden}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+input,textarea,select{font:inherit;color:var(--ink)}
+.view{padding:16px 16px 120px}
+.h1{font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:.98;margin:0}
+.h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:28px 0 12px}
+.sec{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin:22px 0 8px}
+.sec i{width:12px;height:12px;border-radius:4px;border:2px solid var(--ink);display:inline-block}
+.muted{color:var(--ink2)}
+.small{font-size:14px}
+.row{display:flex;align-items:center;gap:12px}
+.between{justify-content:space-between}
+.center{text-align:center}
+.box{background:#fff;border:2px solid var(--ink);border-radius:var(--r);box-shadow:3px 3px 0 var(--ink)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border-radius:14px;background:var(--ink);color:#fff;font-weight:700;font-size:18px;border:2px solid var(--ink);transition:transform .08s}
+.btn:active{transform:translate(2px,2px)}
+.btn.pop{background:var(--lime);color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.btn.line{background:#fff;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.btn.text{background:none;border-color:transparent;color:var(--ink2);font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;border:1.5px solid var(--ink);font-weight:700;font-size:13px;background:#fff}
+.sticker{display:inline-block;padding:6px 12px;border:2px solid var(--ink);border-radius:10px;font-weight:800;background:var(--yellow);transform:rotate(-4deg);box-shadow:2px 2px 0 var(--ink)}
+.c-Morgen{background:var(--yellow)} .c-Tag{background:var(--lime)} .c-Abend{background:var(--lilac)} .c-Jederzeit{background:var(--sky)}
+svg.ic{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* nav */
+nav.tabs{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:406px;height:66px;background:var(--ink);border-radius:22px;display:grid;grid-template-columns:1fr 1fr 78px 1fr 1fr;align-items:center;z-index:20;color:#8C8C88}
+nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600}
+nav.tabs button.on{color:#fff}
+nav.tabs button.on svg{stroke:var(--lime)}
+.ringbtn{position:relative;width:66px;height:66px;margin:-22px auto 0;border-radius:50%;background:var(--lime);border:2px solid var(--ink);display:flex!important;align-items:center;justify-content:center;color:var(--ink)!important}
+.ringbtn .lbl{position:absolute;font-weight:800;font-size:19px;letter-spacing:-.03em}
+.ringbtn .lbl small{font-size:12px}
+
+/* bento */
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.tile{border:2px solid var(--ink);border-radius:var(--r);padding:14px;position:relative;overflow:hidden}
+.tile .n{font-size:46px;font-weight:800;letter-spacing:-.04em;line-height:1}
+.tile .l{font-weight:700;font-size:14px;margin-top:4px}
+.tile.wide{grid-column:1/-1}
+.bar{height:12px;border:2px solid var(--ink);border-radius:8px;overflow:hidden;background:#fff}
+.bar>i{display:block;height:100%;background:var(--lime);border-right:2px solid var(--ink);transition:width .6s}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.06em}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--lime);animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+
+/* list */
+.item{display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border:2px solid var(--ink);border-radius:16px;margin-bottom:8px;cursor:pointer}
+.item .ico{width:46px;height:46px;border-radius:12px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
+.item b{font-size:18px;font-weight:700;letter-spacing:-.01em;display:block}
+.item.done{background:#EFEDE7}
+.item.done b{text-decoration:line-through;text-decoration-thickness:2px;color:#777}
+.tick{width:34px;height:34px;border-radius:10px;border:2px solid var(--ink);flex:none;display:flex;align-items:center;justify-content:center;background:#fff}
+.tick.on{background:var(--ink);color:var(--lime)}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(17,17,17,.5);z-index:40;display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+.sheet{background:var(--paper);width:100%;max-width:430px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;border:2px solid var(--ink);border-bottom:0;animation:up .28s cubic-bezier(.2,.8,.2,1)}
+.sheet .in{padding:18px 18px 30px}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes fade{from{opacity:0}}
+.lab{font-size:12px;letter-spacing:.08em;font-weight:800;text-transform:uppercase;margin:16px 0 4px;color:var(--ink2)}
+.prayer{border:2px solid var(--ink);border-radius:16px;padding:16px;font-size:17px;line-height:1.45;background:#fff}
+.heb{direction:rtl;font-size:23px;font-family:"SBL Hebrew","Times New Roman",serif;margin-bottom:10px;font-weight:700}
+
+/* feed */
+.iconbtn{width:44px;height:44px;border-radius:14px;background:#fff;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.week{display:flex;gap:6px}
+.week>div{flex:1;text-align:center}
+.week .d{font-size:12px;font-weight:700;color:var(--ink2)}
+.week .c{height:40px;border-radius:12px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-weight:800;background:#fff;margin-top:4px}
+.week .c.done{background:var(--orange);color:#fff}
+.week .c.today{box-shadow:2px 2px 0 var(--ink)}
+.week .c.fut{border-style:dashed;border-color:#AAA;color:#AAA}
+.stories{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none;margin:0 -16px;padding-left:16px}
+.story{flex:none;text-align:center;font-size:13px;font-weight:600;width:68px}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none;border:2px solid var(--ink)}
+.story .av{width:64px;height:64px;font-size:22px;margin:0 auto 6px;box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--orange)}
+.post{margin-top:22px}
+.post .card{border:2px solid var(--ink);border-radius:20px;overflow:hidden;background:#fff;margin-top:10px}
+.post .art{aspect-ratio:4/5;position:relative;display:flex;align-items:flex-end;padding:20px;background-size:cover;background-position:center}
+.post .art .q{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.02}
+.post .art .sticker{position:absolute;top:16px;right:14px}
+.post .ac{display:flex;gap:18px;padding:12px 14px;font-weight:700;border-top:2px solid var(--ink)}
+.post .ac button{display:flex;align-items:center;gap:6px}
+.post .ac .on{color:var(--orange)}
+.post .ac .on svg{fill:var(--orange)}
+
+/* profile */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px}
+.grid3>div{aspect-ratio:1;border:2px solid var(--ink);border-radius:12px;display:flex;align-items:flex-end;padding:8px;font-weight:800;font-size:13px;background-size:cover;background-position:center}
+.list>div{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:2px solid var(--ink);font-weight:600}
+.list>div:last-child{border:0}
+
+/* onboarding */
+.ob{min-height:100vh;display:flex;flex-direction:column;padding:24px 20px 30px}
+.ob .grow{flex:1;display:flex;flex-direction:column;justify-content:center}
+.field{width:100%;padding:16px;border-radius:14px;border:2px solid var(--ink);background:#fff;font-size:20px;font-weight:700;outline:none}
+.field:focus{box-shadow:3px 3px 0 var(--ink)}
+.big{font-size:150px;font-weight:800;letter-spacing:-.06em;line-height:.9}
+.popin{animation:popin .55s cubic-bezier(.2,1.6,.4,1)}
+@keyframes popin{from{transform:scale(.5) rotate(-8deg);opacity:0}}
+.logo{font-weight:800;letter-spacing:-.04em;display:inline-flex;align-items:center;gap:4px}
+
+/* admin */
+.adm{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.adm label{display:block;font-size:12px;font-weight:800;color:var(--ink2);margin:8px 0 3px;text-transform:uppercase;letter-spacing:.05em}
+.adm input,.adm textarea,.adm select{width:100%;padding:10px 12px;border:2px solid #DDD9D0;border-radius:10px;background:#FCFBF8}
+.adm textarea{min-height:64px;resize:vertical}
+.adm summary{list-style:none}
+.adm summary::-webkit-details-marker{display:none}
+
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--lime);color:var(--ink);border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);padding:11px 18px;border-radius:14px;font-weight:800;z-index:60;animation:up .25s;white-space:nowrap}
+.conf{position:fixed;top:-12px;width:10px;height:10px;z-index:70;border:2px solid var(--ink);animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ===================== mizva club · Prototyp ===================== */
+const KEY='mizva_club_proto_v2';
+const AVC=['#2B4BFF','#FF5A1F','#C6F432','#C9B6FF','#FFD43B','#8FD3FF','#FF9EC7'];
+const txtOn=c=>['#2B4BFF','#FF5A1F'].includes(c)?'#fff':'#111';
+
+/* Icons (eigene Linien-Icons statt Emojis) */
+const P={
+ sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+ drop:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',
+ box:'<path d="M4 9h11v11H4zM4 9l4-4h11l-4 4M19 5v11l-4 4"/>',
+ star:'<path d="M12 3 4 17h16zM12 21l8-14H4z"/>',
+ door:'<path d="M6 21V3h12v18M3 21h18M15 7.5l-1 3"/>',
+ apple:'<path d="M12 7c-3-2-7-1-7 4s3 9 5 9c1 0 1-.5 2-.5s1 .5 2 .5c2 0 5-4 5-9s-4-6-7-4zM12 7c0-2 1-4 3-4"/>',
+ book:'<path d="M4 19V5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2 2 2 0 0 0 2 2h14"/>',
+ coin:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/>',
+ hand:'<path d="M7 11V6a1.5 1.5 0 0 1 3 0v4M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10V5.5a1.5 1.5 0 0 1 3 0V12M16 9.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-3l-2.5-4.5a1.5 1.5 0 0 1 2.5-1.5L7 13"/>',
+ bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',
+ moon:'<path d="M20 14A8 8 0 1 1 10 4a6.5 6.5 0 0 0 10 10z"/>',
+ flame:'<path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-4-1-6 1-9z"/>',
+ home:'<path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/>',
+ trophy:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+ people:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 4.8"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+ bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21h4"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+ check:'<path d="m5 12 5 5 9-10"/>',
+ chat:'<path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.6A8 8 0 1 1 21 12z"/>',
+ share:'<path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6"/>',
+ cam:'<path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="13" r="3.5"/>',
+ back:'<path d="m15 5-7 7 7 7"/>',
+ arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+ x:'<path d="M6 6l12 12M18 6 6 18"/>'
+};
+const ic=(k,s=24,extra='')=>`<svg class="ic" viewBox="0 0 24 24" style="width:${s}px;height:${s}px" ${extra}>${P[k]||P.star}</svg>`;
+const ICON_KEYS=['sun','drop','box','star','door','apple','book','coin','hand','bulb','moon','flame'];
+
+const DEFAULT_MITZVOT=[
+ {id:'m1',title:'Mode Ani',time:'Morgen',min:'10 Sek',icon:'sun',
+  what:'Direkt nach dem Aufwachen, noch im Bett: kurz Danke sagen.',
+  why:'Bevor das Handy kommt, kommt ein Gedanke, der dir gehört.',
+  heb:'מוֹדֶה אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה רַבָּה אֱמוּנָתֶךָ',
+  text:'Ich danke Dir, lebendiger und ewiger König, dass Du mir meine Seele zurückgegeben hast. Groß ist Deine Treue.'},
+ {id:'m2',title:'Netilat Jadajim',time:'Morgen',min:'30 Sek',icon:'drop',
+  what:'Hände waschen am Morgen: rechts, links, dreimal abwechselnd.',
+  why:'Ein klarer Start. Wie ein Reset für den Tag.',
+  heb:'בָּרוּךְ אַתָּה ה׳ ... עַל נְטִילַת יָדָיִם',
+  text:'Danach die Bracha „al Netilat Jadajim“.'},
+ {id:'m3',title:'Tefillin',time:'Morgen',min:'3 Min',icon:'box',
+  what:'Tefillin anlegen und das Schma sagen.',
+  why:'Kopf, Herz und Hand auf eine Linie bringen. Jeden Tag.',
+  heb:'שְׁמַע יִשְׂרָאֵל ה׳ אֱלֹקֵינוּ ה׳ אֶחָד',
+  text:'Kein Plan wie? Komm in die Synagoge oder schreib uns, jemand zeigt es dir.'},
+ {id:'m4',title:'Schma',time:'Morgen',min:'1 Min',icon:'star',
+  what:'Den ersten Satz des Schma sagen, Augen zu.',
+  why:'Der Satz, den Juden seit 3000 Jahren sagen. Jetzt du.',
+  heb:'שְׁמַע יִשְׂרָאֵל ה׳ אֱלֹקֵינוּ ה׳ אֶחָד',
+  text:'Höre Israel, der Ewige ist unser G-tt, der Ewige ist einer.'},
+ {id:'m5',title:'Mesusa',time:'Jederzeit',min:'5 Sek',icon:'door',
+  what:'Wenn du durch eine Tür gehst: kurz die Mesusa berühren oder anschauen.',
+  why:'Fünf Sekunden, in denen du dich erinnerst, wer du bist.',
+  heb:'',text:'Keine Mesusa in der Nähe? Denk an die an deiner Haustür. Zählt auch.'},
+ {id:'m6',title:'Bracha aufs Essen',time:'Tag',min:'5 Sek',icon:'apple',
+  what:'Vor dem Essen eine Bracha sagen. Ja, auch vor dem Snack.',
+  why:'Macht aus Essen nebenbei einen bewussten Moment.',
+  heb:'בָּרוּךְ אַתָּה ה׳ אֱלֹקֵינוּ מֶלֶךְ הָעוֹלָם שֶׁהַכֹּל נִהְיָה בִּדְבָרוֹ',
+  text:'Gesegnet bist Du, Ewiger, unser G-tt, König der Welt, durch dessen Wort alles entstanden ist.'},
+ {id:'m7',title:'Tehillim',time:'Tag',min:'3 Min',icon:'book',
+  what:'Ein Kapitel Tehillim lesen. Heute: Psalm 23.',
+  why:'König David hat es geschrieben, als es ihm schlecht und gut ging. Passt immer.',
+  heb:'מִזְמוֹר לְדָוִד ה׳ רֹעִי לֹא אֶחְסָר',
+  text:'Der Ewige ist mein Hirte, mir wird nichts fehlen.'},
+ {id:'m8',title:'Zedaka',time:'Tag',min:'1 Min',icon:'coin',
+  what:'Ein bisschen Geld geben. Büchse, Straße oder online.',
+  why:'Nicht wie viel, sondern dass du es jeden Tag machst.',
+  heb:'',text:'Tipp: Leg dir eine Zedaka-Büchse neben die Tür.'},
+ {id:'m9',title:'Was Gutes tun',time:'Tag',min:'2 Min',icon:'hand',
+  what:'Heute für jemanden etwas Nettes tun.',
+  why:'Ve’ahavta le’re’acha kamocha. Klingt groß, fängt klein an.',
+  heb:'',text:'Idee für heute: Schreib jemandem, den du lange nicht gesprochen hast.'},
+ {id:'m10',title:'Ein Gedanke',time:'Tag',min:'1 Min',icon:'bulb',
+  what:'Ein kurzer Gedanke aus Tora oder Chassidut.',
+  why:'Eine Minute Input, die dich den Tag über begleitet.',
+  heb:'',text:'„Ein bisschen Licht vertreibt viel Dunkelheit.“ Du musst nicht alles auf einmal machen.'},
+ {id:'m11',title:'Schma vorm Schlafen',time:'Abend',min:'1 Min',icon:'moon',
+  what:'Im Bett, bevor du einschläfst: das Schma.',
+  why:'Der Tag ist vorbei. Abhaken, loslassen.',
+  heb:'שְׁמַע יִשְׂרָאֵל ה׳ אֱלֹקֵינוּ ה׳ אֶחָד',
+  text:'Höre Israel, der Ewige ist unser G-tt, der Ewige ist einer.'}
+];
+const SEED_POSTS=[
+ {id:'p1',user:'Rachel',c:6,mz:'Schabbatkerzen',q:'Zum ersten Mal selbst Kerzen gezündet. Hatte Gänsehaut.',bg:'#FF5A1F',t:'2 Std.',likes:31,comments:['wie schön','Schabbat Schalom!!']},
+ {id:'p2',user:'David',c:0,mz:'Tefillin',q:'Tag 21. Hätte nie gedacht, dass ich das durchziehe.',bg:'#2B4BFF',t:'4 Std.',likes:48,comments:['Schkoach bro']},
+ {id:'p3',user:'Chana',c:4,mz:'Challa',q:'Challa Nr. 1. Sieht schief aus, schmeckt top.',bg:'#FFD43B',t:'gestern',likes:57,comments:[]},
+ {id:'p4',user:'Jossi',c:2,mz:'Tehillim',q:'Tehillim im Augarten, bevor die Uni losgeht.',bg:'#C6F432',t:'gestern',likes:12,comments:['Gute Idee']}
+];
+const DEFAULT_CHALLENGE={title:'7 Tage, 5 Mizwot',sub:'Schaff 5 Mizwot am Tag, eine Woche lang.',prize:'Zu gewinnen: Schabbat-Dinner für dich und 3 Freunde',days:7,perDay:5};
+const CIRCLES=[{n:'Jugend Tempelgasse',m:48,s:1210},{n:'Uni Wien Juden',m:132,s:980},{n:'Mädels Mittwoch',m:37,s:860},{n:'Familie Cohen',m:9,s:402}];
+
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+let S=load()||{name:'',onboarded:false,done:{},posts:SEED_POSTS,liked:{},joined:false,mitzvot:DEFAULT_MITZVOT,challenge:DEFAULT_CHALLENGE,obStep:0,goal:15};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+let tab='heute';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=n=>n.toLocaleString('de-DE');
+const dkey=d=>{d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const todayDone=()=>(S.done[dkey()]||[]).filter(id=>S.mitzvot.some(m=>m.id===id));
+const totalDone=()=>Object.values(S.done).reduce((a,b)=>a+b.length,0);
+function streak(){let n=0,d=new Date();if(!(S.done[dkey(d)]||[]).length)d.setDate(d.getDate()-1);while((S.done[dkey(d)]||[]).length){n++;d.setDate(d.getDate()-1)}return n}
+function weekDays(){const d=new Date(),dow=(d.getDay()+6)%7;const mon=new Date(d);mon.setDate(d.getDate()-dow);return[...Array(7)].map((_,i)=>{const x=new Date(mon);x.setDate(mon.getDate()+i);return x})}
+const weekCount=()=>weekDays().reduce((a,d)=>a+(S.done[dkey(d)]||[]).length,0);
+let globalBase=48213+Math.floor((Date.now()/60000)%500);
+
+function ring(done,total){const r=29,c=2*Math.PI*r,p=total?done/total:0;return `<svg width="66" height="66" viewBox="0 0 66 66" style="position:absolute;inset:-2px"><circle cx="33" cy="33" r="${r}" fill="none" stroke="#111" stroke-opacity=".12" stroke-width="5"/><circle cx="33" cy="33" r="${r}" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}" transform="rotate(-90 33 33)" style="transition:stroke-dashoffset .6s"/></svg>`}
+const logo=(s=22)=>`<span class="logo" style="font-size:${s}px">mizva<span style="display:inline-flex;width:${s*.9}px;height:${s*.9}px;border-radius:50%;background:var(--orange);border:2px solid var(--ink);align-items:center;justify-content:center;color:#fff">${ic('flame',s*.55,'style="stroke-width:2.6"')}</span>club</span>`;
+
+function toast(t){document.querySelectorAll('.toast').forEach(e=>e.remove());const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2000)}
+function confetti(){for(let i=0;i<34;i++){const c=document.createElement('i');c.className='conf';c.style.left=Math.random()*100+'vw';c.style.background=AVC[i%7];c.style.borderRadius=i%3?'2px':'50%';c.style.animationDuration=(1.3+Math.random()*1.3)+'s';c.style.animationDelay=Math.random()*.3+'s';document.body.appendChild(c);setTimeout(()=>c.remove(),3000)}}
+
+/* ===================== ONBOARDING ===================== */
+function renderOnboarding(){const st=S.obStep,app=$('#app');
+ if(st===0)app.innerHTML=`<div class="ob" style="background:var(--lime)"><div>${logo(24)}</div>
+  <div class="grow"><div class="h1" style="font-size:58px">Eine Mizwa am Tag.<br><span style="background:var(--ink);color:var(--lime);padding:0 8px;border-radius:10px;display:inline-block;transform:rotate(-2deg);margin-top:6px">Mehr nicht.</span></div>
+  <p style="font-size:20px;font-weight:500;margin-top:22px;max-width:320px">Meistens dauert's unter einer Minute. Deine Freunde sehen's, dein Streak wächst.</p></div>
+  <button class="btn" onclick="ob(1)">Los geht's ${ic('arrow',22)}</button></div>`;
+ if(st===1)app.innerHTML=`<div class="ob"><div class="grow"><div class="h1">Wie heißt du?</div>
+  <p class="muted" style="font-size:17px">Damit deine Leute dich finden.</p>
+  <input id="nm" class="field" style="margin-top:20px" placeholder="Vorname" value="${esc(S.name)}" autocomplete="given-name" onkeydown="if(event.key==='Enter')nameNext()"></div>
+  <button class="btn" onclick="nameNext()">Weiter</button></div>`;
+ if(st===2){const m=S.mitzvot.find(x=>x.id==='m5')||S.mitzvot[0];
+  app.innerHTML=`<div class="ob"><div class="grow"><span class="sticker" style="align-self:flex-start;background:var(--sky)">Deine erste Mizwa</span>
+  <div class="h1" style="font-size:52px;margin-top:16px">${esc(m.title)}</div><div style="font-weight:700;margin-top:6px">dauert ${esc(m.min)}</div>
+  <div class="box" style="padding:18px;margin-top:20px"><div style="font-size:19px;font-weight:600">${esc(m.what)}</div><p class="muted" style="margin:10px 0 0">${esc(m.text)}</p></div></div>
+  <button class="btn pop" onclick="markDone('${m.id}',true);ob(3)">${ic('check',22)} Erledigt</button>
+  <button class="btn text" style="margin-top:6px" onclick="ob(4)">Mach ich später</button></div>`}
+ if(st===3)app.innerHTML=`<div class="ob" style="background:var(--orange);color:#fff"><div class="grow center">
+  <div class="big popin">${Math.max(1,streak())}</div><div style="font-size:28px;font-weight:800">Tag Streak</div>
+  <p style="font-size:19px;margin:20px 16px 0">Stark, ${esc(S.name)}. Komm morgen wieder, dann sind's 2.</p></div>
+  <button class="btn" onclick="ob(4)">Weiter</button></div>`;
+ if(st===4)app.innerHTML=`<div class="ob"><div class="grow">
+  ${[['Rachel hat dir Schkoach gegeben','jetzt','#FF5A1F'],['David: „Weiter so!“','2 Min.','#2B4BFF'],['Dein Streak läuft heute ab','20:00','#C6F432']].map((n,i)=>`
+  <div class="box row" style="padding:12px 14px;margin-bottom:10px;transform:rotate(${[-1.5,1,-.5][i]}deg)"><div class="av" style="width:38px;height:38px;background:${n[2]};color:${txtOn(n[2])}">${ic(i===2?'flame':'bell',18)}</div><b style="flex:1;font-size:15px">${n[0]}</b><span class="muted small">${n[1]}</span></div>`).join('')}
+  <div class="h1" style="margin-top:26px">Push an?</div>
+  <p class="muted" style="font-size:17px">Nur wenn dir jemand Schkoach gibt oder dein Streak kurz vorm Ablaufen ist. Kein Spam, versprochen.</p></div>
+  <button class="btn" onclick="askNotif()">Ja, an</button><button class="btn text" style="margin-top:6px" onclick="finishOb()">Lieber nicht</button></div>`;
+}
+function nameNext(){const v=$('#nm').value.trim();if(!v){$('#nm').focus();return}S.name=v;ob(2)}
+function ob(n){S.obStep=n;save();renderOnboarding();scrollTo(0,0)}
+function askNotif(){try{if('Notification'in window)Notification.requestPermission().finally(finishOb);else finishOb()}catch(e){finishOb()}}
+function finishOb(){S.onboarded=true;save();tab='heute';render()}
+
+/* ===================== ACTIONS ===================== */
+function markDone(id,quiet){const k=dkey();S.done[k]=S.done[k]||[];
+ if(S.done[k].includes(id)){S.done[k]=S.done[k].filter(x=>x!==id);save();if(!quiet){closeSheet();render()}return}
+ S.done[k].push(id);globalBase++;save();if(quiet)return;
+ const n=todayDone().length,t=S.mitzvot.length;closeSheet();render();
+ if(n===t){confetti();toast('Alle geschafft. Respekt.')}else if(n===1){confetti();toast('Streak: '+streak()+(streak()>1?' Tage':' Tag'))}else toast('Nice. '+n+' von '+t)}
+function like(id){S.liked[id]=!S.liked[id];const p=S.posts.find(x=>x.id===id);p.likes+=S.liked[id]?1:-1;save();render()}
+function go(t){tab=t;render();scrollTo(0,0)}
+
+function openSheet(html,top=''){closeSheet();const s=document.createElement('div');s.className='scrim';s.id='scrim';s.innerHTML=`<div class="sheet" onclick="event.stopPropagation()">${top}<div class="in">${html}</div></div>`;s.onclick=closeSheet;document.body.appendChild(s)}
+function closeSheet(){$('#scrim')?.remove()}
+function openMitzvah(id){const m=S.mitzvot.find(x=>x.id===id),d=todayDone().includes(id);
+ openSheet(`<div class="lab" style="margin-top:0">Worum geht's</div><div style="font-size:18px;font-weight:600">${esc(m.what)}</div>
+  <div class="lab">Warum</div><div style="font-size:17px">${esc(m.why)}</div>
+  <div class="prayer" style="margin-top:16px">${m.heb?`<div class="heb">${esc(m.heb)}</div>`:''}${esc(m.text)}</div>
+  <div style="margin-top:18px;display:grid;gap:10px">
+  <button class="btn ${d?'line':'pop'}" onclick="markDone('${id}')">${d?'Doch nicht erledigt':ic('check',22)+' Erledigt'}</button>
+  ${d?`<button class="btn line" onclick="newPost('${id}')">${ic('cam',22)} Posten</button>`:''}</div>`,
+ `<div class="c-${m.time}" style="padding:18px;border-bottom:2px solid var(--ink);border-radius:22px 22px 0 0;position:relative"><button style="position:absolute;right:14px;top:14px" onclick="closeSheet()">${ic('x',26)}</button>
+  <div class="iconbtn" style="width:54px;height:54px">${ic(m.icon,28)}</div><div class="h1" style="margin-top:12px">${esc(m.title)}</div>
+  <div style="margin-top:8px;font-weight:700">${m.time} · ${esc(m.min)}</div></div>`)}
+let pendingImg=null;
+function newPost(mid){const m=S.mitzvot.find(x=>x.id===mid);pendingImg=null;
+ openSheet(`<div class="h1" style="font-size:30px">Was hast du gemacht?</div>
+  ${m?`<div style="margin-top:10px"><span class="chip c-${m.time}">${ic(m.icon,16)} ${esc(m.title)}</span></div>`:''}
+  <label class="box center" style="display:block;cursor:pointer;margin:16px 0;padding:22px" id="pick">${ic('cam',34)}<div style="font-weight:700;margin-top:6px">Foto hinzufügen</div><input type="file" accept="image/*" hidden onchange="pickImg(this)"></label>
+  <textarea id="ptx" class="field" style="min-height:90px;font-size:17px;font-weight:500" placeholder="Schreib was dazu…"></textarea>
+  <button class="btn" style="margin-top:14px" onclick="publish('${m?esc(m.title):'Mizwa'}')">Posten</button>`)}
+function pickImg(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),s=Math.min(1,900/Math.max(im.width,im.height));c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);pendingImg=c.toDataURL('image/jpeg',.8);$('#pick').innerHTML=`<img src="${pendingImg}" style="width:100%;border-radius:12px;display:block">`};im.src=r.result};r.readAsDataURL(f)}
+function publish(mz){const q=$('#ptx').value.trim();if(!q&&!pendingImg){toast('Foto oder Text, bitte');return}
+ S.posts.unshift({id:'u'+Date.now(),user:S.name,c:Math.floor(Math.random()*7),mz,img:pendingImg,q,bg:AVC[Math.floor(Math.random()*7)],t:'jetzt',likes:0,comments:[],mine:true});pendingImg=null;save();closeSheet();go('feed');toast('Gepostet')}
+function openComments(id){const p=S.posts.find(x=>x.id===id);
+ openSheet(`<div class="h1" style="font-size:28px">Kommentare</div><div style="margin:14px 0;display:grid;gap:8px">${p.comments.length?p.comments.map(c=>`<div class="box" style="padding:10px 14px;box-shadow:none">${esc(c)}</div>`).join(''):'<p class="muted">Noch nichts. Sei der Erste.</p>'}</div>
+  <div class="row"><input id="cm" class="field" style="font-size:17px" placeholder="Kommentar…"><button class="iconbtn" style="flex:none;background:var(--ink);color:var(--lime);height:56px;width:56px" onclick="addComment('${id}')">${ic('arrow',22)}</button></div>`)}
+function addComment(id){const v=$('#cm').value.trim();if(!v)return;S.posts.find(x=>x.id===id).comments.push(v);save();render();openComments(id)}
+
+/* ===================== VIEWS ===================== */
+const SECT={Morgen:'Morgens',Jederzeit:'Jederzeit',Tag:'Tagsüber',Abend:'Abends'};
+function vHeute(){const done=todayDone(),t=S.mitzvot.length,g=globalBase+totalDone(),goal=100000,ch=S.challenge;
+ const groups=['Morgen','Jederzeit','Tag','Abend'].map(k=>[k,S.mitzvot.filter(m=>m.time===k)]).filter(x=>x[1].length);
+ const left=t-done.length;
+ return `<div class="row between"><div>${logo(20)}</div><button class="iconbtn" onclick="go('profil')"><b>${esc(S.name[0]||'?').toUpperCase()}</b></button></div>
+ <div class="h1" style="margin-top:22px">Hey ${esc(S.name)}.</div>
+ <div class="muted" style="font-size:18px;margin-top:4px">${left===0?'Heute alles erledigt. Krass.':`Noch ${left} Mizwot heute. Fang mit einer an.`}</div>
+ <div class="bento">
+  <div class="tile" style="background:var(--orange);color:#fff">${ic('flame',26)}<div class="n" style="margin-top:6px">${streak()}</div><div class="l">${streak()===1?"Tag":"Tage"} Streak</div></div>
+  <div class="tile" style="background:var(--lime)">${ic('check',26)}<div class="n" style="margin-top:6px">${done.length}<span style="font-size:24px">/${t}</span></div><div class="l">heute</div></div>
+  <div class="tile wide" style="background:var(--blue);color:#fff"><div class="row between"><span style="font-weight:700">Mizwot in Wien, 2026</span><span class="live"><span class="dot"></span>LIVE</span></div>
+   <div class="n" style="margin:8px 0 10px" id="gnum">${num(g)}</div><div class="bar"><i style="width:${Math.min(100,g/goal*100)}%"></i></div>
+   <div class="small" style="margin-top:6px;font-weight:600">Ziel: ${num(goal)}. Jede von dir zählt mit.</div></div>
+ </div>
+ <div class="box" style="margin-top:14px;padding:16px;background:var(--yellow);position:relative;cursor:pointer" onclick="go('challenge')">
+  <span class="sticker" style="position:absolute;right:12px;top:-12px;background:#fff;transform:rotate(5deg)">Challenge</span>
+  <div style="font-size:24px;font-weight:800;letter-spacing:-.02em;max-width:80%">${esc(ch.title)}</div><div style="font-weight:500;margin-top:2px">${esc(ch.prize)}</div>
+  <div class="row" style="margin-top:12px;font-weight:800">${S.joined?'Dein Fortschritt':'Mitmachen'} ${ic('arrow',20)}</div></div>
+ ${groups.map(([k,ms])=>`<div class="sec"><i class="c-${k}"></i>${SECT[k]}</div>${ms.map(m=>{const d=done.includes(m.id);return `
+  <div class="item ${d?'done':''}" onclick="openMitzvah('${m.id}')"><div class="ico c-${m.time}">${ic(m.icon,24)}</div>
+  <div style="flex:1;min-width:0"><b>${esc(m.title)}</b><span class="muted small" style="font-weight:600">${esc(m.min)}</span></div>
+  <button class="tick ${d?'on':''}" onclick="event.stopPropagation();markDone('${m.id}')">${d?ic('check',20,'style="stroke-width:3"'):''}</button></div>`}).join('')}`).join('')}
+ <button class="box row" style="width:100%;padding:14px;margin-top:14px;box-shadow:none;border-style:dashed" onclick="toast('Kommt in Phase 2: Mizwot-Bibliothek')">${ic('plus',24)}<span style="font-weight:700;font-size:17px">Eigene Mizwa hinzufügen</span></button>`}
+
+function vFeed(){const wd=weekDays(),tk=dkey(),names=['Mo','Di','Mi','Do','Fr','Sa','So'];
+ return `<div class="row between">${logo(22)}<div class="row" style="gap:8px"><button class="iconbtn" onclick="toast('Suche: Phase 2')">${ic('search',22)}</button><button class="iconbtn" onclick="toast('Nichts Neues')">${ic('bell',22)}</button><button class="iconbtn" style="background:var(--lime)" onclick="newPost('')">${ic('plus',22)}</button></div></div>
+ <div class="box" style="margin-top:16px;padding:14px"><div class="row between" style="margin-bottom:10px"><b style="font-size:20px">${ic('flame',20,'style="vertical-align:-3px;color:var(--orange)"')} ${streak()} ${streak()===1?"Tag":"Tage"} Streak</b><button class="chip" onclick="shareStreak()">${ic('share',14)} teilen</button></div>
+  <div class="week">${wd.map((d,i)=>{const k=dkey(d),n=(S.done[k]||[]).length,fut=k>tk;return `<div><div class="d">${names[i]}</div><div class="c ${n?'done':''} ${k===tk?'today':''} ${fut?'fut':''}">${n?ic('check',18,'style="stroke-width:3"'):d.getDate()}</div></div>`}).join('')}</div>
+  <div class="small" style="margin-top:10px;font-weight:600">Woche: ${weekCount()} von ${S.goal} Mizwot</div></div>
+ <div class="stories" style="margin-top:18px"><div class="story" onclick="newPost('')"><div class="av" style="background:#fff;box-shadow:none;border-style:dashed">${ic('plus',22)}</div>Du</div>
+  ${['Rachel','David','Chana','Jossi','Mira','Levi','Noa'].map((n,i)=>`<div class="story"><div class="av" style="background:${AVC[i%7]};color:${txtOn(AVC[i%7])}">${n[0]}</div>${n}</div>`).join('')}</div>
+ <div class="box row" style="margin-top:14px;padding:14px;background:var(--lilac)"><div style="flex:1"><b style="font-size:18px">Allein ist langweilig.</b><div class="small" style="font-weight:500">Hol deine Freunde rein.</div></div><button class="btn" style="width:auto;padding:10px 16px;font-size:15px" onclick="invite()">Einladen</button></div>
+ ${S.posts.map(p=>`<div class="post"><div class="row"><div class="av" style="width:40px;height:40px;background:${AVC[p.c%7]};color:${txtOn(AVC[p.c%7])}">${esc(p.user[0])}</div><div style="flex:1;line-height:1.2"><b>${esc(p.user)}</b> <span class="muted">· ${esc(p.mz)}</span><div class="muted small">${esc(p.t)}</div></div></div>
+  <div class="card">${p.img?`<div class="art" style="background-image:url(${p.img})"><span class="sticker">${esc(p.mz)}</span></div>${p.q?`<div style="padding:12px 14px 0;font-size:17px">${esc(p.q)}</div>`:''}`
+   :`<div class="art" style="background:${p.bg};color:${txtOn(p.bg)}"><span class="sticker" style="background:#fff;color:#111">${esc(p.mz)}</span><div class="q">${esc(p.q)}</div></div>`}
+  <div class="ac"><button class="${S.liked[p.id]?'on':''}" onclick="like('${p.id}')">${ic('flame',22)} ${p.likes}</button><button onclick="openComments('${p.id}')">${ic('chat',22)} ${p.comments.length}</button><span style="flex:1"></span><button onclick="toast('Link kopiert')">${ic('share',22)}</button></div></div>
+  <div class="muted small" style="margin-top:6px;font-weight:600">${ic('flame',14,'style="vertical-align:-2px"')} = Schkoach geben</div></div>`).join('')}`}
+
+function vChallenge(){const ch=S.challenge,wd=[];const d0=new Date();for(let i=ch.days-1;i>=0;i--){const x=new Date(d0);x.setDate(d0.getDate()-i);wd.push(x)}
+ const ok=wd.filter(d=>(S.done[dkey(d)]||[]).length>=ch.perDay).length,td=todayDone().length;
+ return `<div class="h1">Challenges</div>
+ <div class="box" style="margin-top:16px;background:var(--blue);color:#fff;padding:18px;position:relative">
+  <span class="sticker" style="position:absolute;right:12px;top:-12px;background:var(--lime);color:#111">Läuft gerade</span>
+  <div style="font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1">${esc(ch.title)}</div>
+  <div style="margin-top:8px;font-size:17px">${esc(ch.sub)}</div>
+  <div class="box" style="background:var(--yellow);color:#111;padding:10px 12px;margin-top:14px;box-shadow:2px 2px 0 #111;font-weight:700">${ic('trophy',18,'style="vertical-align:-3px"')} ${esc(ch.prize)}</div>
+  ${S.joined?`<div style="margin-top:18px"><div class="row between" style="font-weight:700"><span>Du</span><span>${ok} von ${ch.days} Tagen</span></div>
+   <div class="row" style="gap:5px;margin-top:8px">${wd.map(d=>`<div style="flex:1;height:14px;border-radius:5px;border:2px solid #fff;background:${(S.done[dkey(d)]||[]).length>=ch.perDay?'var(--lime)':'transparent'}"></div>`).join('')}</div>
+   <div style="margin-top:10px">Heute: ${Math.min(td,ch.perDay)} von ${ch.perDay} ${td>=ch.perDay?'✓':''}</div></div>`
+  :`<button class="btn pop" style="margin-top:16px" onclick="S.joined=true;save();confetti();render()">Ich bin dabei</button>`}</div>
+ <div class="h2">Demnächst</div>
+ ${[['book','Tehillim-Kette','Zusammen das ganze Buch in einer Woche','312 dabei','var(--lime)'],['flame','4 Freitage Kerzen','Vier Wochen hintereinander Schabbatkerzen','1.204 dabei','var(--orange)'],['hand','30 Tage, 30 gute Taten','Jeden Tag was Gutes, einen Monat lang','87 dabei','var(--lilac)']].map(c=>`
+ <div class="item"><div class="ico" style="background:${c[4]}">${ic(c[0],24)}</div><div style="flex:1"><b>${c[1]}</b><div class="muted small">${c[2]}</div><div class="small" style="font-weight:800;margin-top:2px">${c[3]}</div></div>${ic('arrow',20)}</div>`).join('')}`}
+
+function vCommunity(){const g=globalBase+totalDone();
+ return `<div class="h1">Community</div>
+ <div class="box center" style="margin-top:16px;padding:22px;background:var(--lime)"><span class="live"><span class="dot" style="background:#111"></span>LIVE</span>
+  <div style="font-size:60px;font-weight:800;letter-spacing:-.05em;line-height:1;margin-top:8px" id="gnum2">${num(g)}</div><div style="font-weight:700">Mizwot in Wien dieses Jahr</div>
+  <div class="bar" style="margin-top:14px"><i style="width:${g/1000}%;background:var(--ink)"></i></div><div class="small" style="margin-top:6px;font-weight:700">Ziel: 100.000</div></div>
+ <div class="bento" style="grid-template-columns:1fr 1fr 1fr"><div class="tile center" style="background:#fff;padding:10px"><div class="n" style="font-size:28px">1.284</div><div class="l">Leute</div></div><div class="tile center" style="background:#fff;padding:10px"><div class="n" style="font-size:28px">312</div><div class="l">heute aktiv</div></div><div class="tile center" style="background:#fff;padding:10px"><div class="n" style="font-size:28px">27</div><div class="l">Gruppen</div></div></div>
+ <div class="h2">Gruppen-Ranking</div>
+ ${CIRCLES.map((c,i)=>`<div class="item"><div style="font-size:28px;font-weight:800;width:28px;text-align:center">${i+1}</div><div class="av" style="width:44px;height:44px;border-radius:12px;background:${AVC[i]};color:${txtOn(AVC[i])}">${esc(c.n[0])}</div><div style="flex:1;min-width:0"><b style="font-size:16px">${c.n}</b><div class="muted small">${c.m} Leute · ${num(c.s)} Mizwot</div></div><button class="chip" style="background:var(--ink);color:#fff;padding:7px 12px" onclick="event.stopPropagation();this.textContent='Dabei';this.style.background='var(--lime)';this.style.color='#111'">Beitreten</button></div>`).join('')}
+ <button class="btn line" style="margin-top:12px" onclick="toast('Gruppe gründen: Phase 2')">${ic('plus',22)} Eigene Gruppe</button>`}
+
+function vProfile(){const mine=S.posts.filter(p=>p.mine);
+ return `<div class="row between"><span></span><button class="iconbtn" onclick="go('settings')">${ic('gear',22)}</button></div>
+ <div class="av" style="width:96px;height:96px;font-size:40px;background:var(--orange);color:#fff;border-radius:28px;box-shadow:3px 3px 0 #111;margin-top:4px">${esc((S.name[0]||'?').toUpperCase())}</div>
+ <div class="h1" style="margin-top:14px">${esc(S.name)}</div><div class="muted" style="font-weight:600">@${esc(S.name.toLowerCase().replace(/\s+/g,''))} · seit Nov 2026</div>
+ <div class="bento" style="grid-template-columns:1fr 1fr 1fr"><div class="tile" style="background:var(--orange);color:#fff;padding:10px 12px"><div class="n" style="font-size:30px">${streak()}</div><div class="l">Streak</div></div><div class="tile" style="background:#fff;padding:10px 12px"><div class="n" style="font-size:30px">${totalDone()}</div><div class="l">Mizwot</div></div><div class="tile" style="background:#fff;padding:10px 12px"><div class="n" style="font-size:30px">0</div><div class="l">Follower</div></div></div>
+ <div class="row" style="margin-top:14px;gap:10px"><button class="btn line" style="padding:12px;font-size:15px" onclick="toast('Profil bearbeiten: Phase 2')">Profil bearbeiten</button><button class="btn line" style="padding:12px;font-size:15px" onclick="invite()">Freunde finden</button></div>
+ <div class="h2">Deine Posts</div>
+ ${mine.length?`<div class="grid3">${mine.map(p=>`<div style="background:${p.img?`url(${p.img})`:p.bg};background-size:cover;color:${p.img?'#fff':txtOn(p.bg)}">${p.img?'':esc(p.mz)}</div>`).join('')}</div>`
+ :`<div class="box center" style="padding:24px;box-shadow:none;border-style:dashed">${ic('cam',36)}<div style="font-weight:800;font-size:19px;margin-top:8px">Noch nichts gepostet</div><p class="muted" style="margin:6px 0 14px">Mode Ani mit Aussicht, Tehillim im Park, Bracha auf deinen Lieblingssnack. Mach ein Foto davon.</p><button class="btn pop" onclick="newPost('')">Ersten Post machen</button></div>`}`}
+
+function vSettings(){return `<div class="row"><button class="iconbtn" onclick="go('profil')">${ic('back',22)}</button><b style="font-size:20px">Einstellungen</b></div>
+ <div class="lab" style="margin-top:22px">Konto</div><div class="box list" style="box-shadow:none"><div>Name<span class="muted">${esc(S.name)}</span></div><div>Profil bearbeiten<span>›</span></div></div>
+ <div class="lab">Erinnerung</div><div class="box list" style="box-shadow:none"><div>Täglich um<span class="muted">08:00 ›</span></div><div>Streak-Warnung<span class="muted">20:00 ›</span></div></div>
+ <div class="lab">Privatsphäre</div><div class="box list" style="box-shadow:none"><div>Privates Profil<span class="muted">aus</span></div><div>Blockiert<span>›</span></div></div>
+ <div class="lab">Verwaltung</div><div class="box list" style="background:var(--yellow)"><div style="cursor:pointer" onclick="go('admin')"><div><b>Club verwalten</b><div class="small" style="font-weight:500">Mizwot, Texte, Challenge, Posts</div></div>${ic('arrow',20)}</div></div>
+ <div class="lab">Rechtliches</div><div class="box list" style="box-shadow:none"><div>Datenschutz<span>›</span></div><div>AGB<span>›</span></div></div>
+ <button class="btn text" style="margin-top:16px" onclick="if(confirm('Prototyp zurücksetzen? Alle Demo-Daten werden gelöscht.')){try{localStorage.removeItem('${KEY}')}catch(e){}location.reload()}">Prototyp zurücksetzen</button>`}
+
+function vAdmin(){const ch=S.challenge;
+ return `<div class="row"><button class="iconbtn" onclick="go('settings')">${ic('back',22)}</button><b style="font-size:20px">Club verwalten</b></div>
+ <div class="box" style="background:var(--sky);padding:14px;margin-top:16px;box-shadow:none"><b>Wie das funktioniert:</b> Was du hier änderst, sehen alle sofort, auf der Website und in den Apps. Ohne App-Update. <span class="small">(Im Prototyp nur auf diesem Gerät.)</span></div>
+ <div class="h2">Challenge</div><div class="adm">
+  <label>Titel</label><input value="${esc(ch.title)}" oninput="S.challenge.title=this.value;save()">
+  <label>Beschreibung</label><input value="${esc(ch.sub)}" oninput="S.challenge.sub=this.value;save()">
+  <label>Preis</label><input value="${esc(ch.prize)}" oninput="S.challenge.prize=this.value;save()">
+  <div class="row"><div style="flex:1"><label>Tage</label><input type="number" min="1" value="${ch.days}" oninput="S.challenge.days=+this.value||1;save()"></div><div style="flex:1"><label>Mizwot pro Tag</label><input type="number" min="1" value="${ch.perDay}" oninput="S.challenge.perDay=+this.value||1;save()"></div></div></div>
+ <div class="row between"><div class="h2">Mizwot (${S.mitzvot.length})</div><button class="chip" style="background:var(--ink);color:#fff;padding:8px 14px" onclick="addMz()">${ic('plus',16)} Neu</button></div>
+ ${S.mitzvot.map((m,i)=>`<details class="adm"><summary class="row between" style="cursor:pointer"><span class="row" style="gap:10px"><span class="ico c-${m.time}" style="width:34px;height:34px;border:2px solid #111;border-radius:9px;display:flex;align-items:center;justify-content:center">${ic(m.icon,18)}</span><b>${esc(m.title)}</b></span><span class="muted small">${m.time}</span></summary>
+  <label>Name</label><input value="${esc(m.title)}" oninput="upd(${i},'title',this.value)">
+  <div class="row"><div style="flex:1"><label>Tageszeit</label><select onchange="upd(${i},'time',this.value,1)">${['Morgen','Tag','Abend','Jederzeit'].map(t=>`<option ${t===m.time?'selected':''}>${t}</option>`).join('')}</select></div><div style="flex:1"><label>Dauer</label><input value="${esc(m.min)}" oninput="upd(${i},'min',this.value)"></div><div style="flex:1"><label>Icon</label><select onchange="upd(${i},'icon',this.value,1)">${ICON_KEYS.map(k=>`<option ${k===m.icon?'selected':''}>${k}</option>`).join('')}</select></div></div>
+  <label>Worum geht's</label><textarea oninput="upd(${i},'what',this.value)">${esc(m.what)}</textarea>
+  <label>Warum</label><textarea oninput="upd(${i},'why',this.value)">${esc(m.why)}</textarea>
+  <label>Hebräisch (optional)</label><input dir="rtl" value="${esc(m.heb)}" oninput="upd(${i},'heb',this.value)">
+  <label>Text</label><textarea oninput="upd(${i},'text',this.value)">${esc(m.text)}</textarea>
+  <div class="row" style="margin-top:10px;gap:8px"><button class="chip" onclick="mvMz(${i},-1)">↑</button><button class="chip" onclick="mvMz(${i},1)">↓</button><span style="flex:1"></span><button class="chip" style="background:#FFD9D0" onclick="if(confirm('Mizwa löschen?')){S.mitzvot.splice(${i},1);save();render()}">Löschen</button></div></details>`).join('')}
+ <div class="h2">Posts prüfen</div>${S.posts.map(p=>`<div class="adm row between"><div style="min-width:0"><b>${esc(p.user)}</b> <span class="muted small">· ${esc(p.mz)}</span><div class="small muted">${esc(p.q||'(nur Foto)')}</div></div><button class="chip" style="background:#FFD9D0;flex:none" onclick="if(confirm('Post entfernen?')){S.posts=S.posts.filter(x=>x.id!=='${p.id}');save();render()}">Entfernen</button></div>`).join('')}
+ <button class="btn text" style="margin-top:10px" onclick="if(confirm('Mizwot und Challenge auf Standard zurücksetzen?')){S.mitzvot=JSON.parse(JSON.stringify(DEFAULT_MITZVOT));S.challenge={...DEFAULT_CHALLENGE};save();render()}">Standard wiederherstellen</button>`}
+function upd(i,k,v,rerender){S.mitzvot[i][k]=v;save();if(rerender){const open=[...document.querySelectorAll('details.adm')].map(d=>d.open);render();document.querySelectorAll('details.adm').forEach((d,j)=>d.open=!!open[j])}else refreshNav()}
+function mvMz(i,d){const j=i+d;if(j<0||j>=S.mitzvot.length)return;[S.mitzvot[i],S.mitzvot[j]]=[S.mitzvot[j],S.mitzvot[i]];save();render()}
+function addMz(){S.mitzvot.push({id:'m'+Date.now(),title:'Neue Mizwa',time:'Tag',min:'1 Min',icon:'star',what:'',why:'',heb:'',text:''});save();render();setTimeout(()=>{const d=document.querySelectorAll('details.adm');const l=d[d.length-1];l.open=true;l.scrollIntoView({behavior:'smooth'})},50)}
+
+function invite(){const t='Komm in den mizva club. Jeden Tag eine kleine Mizwa, zusammen mit Freunden.';if(navigator.share)navigator.share({title:'mizva club',text:t}).catch(()=>{});else{navigator.clipboard?.writeText(t);toast('Einladung kopiert')}}
+function shareStreak(){const t=`${streak()} Tage Streak im mizva club 🔥`;if(navigator.share)navigator.share({text:t}).catch(()=>{});else{navigator.clipboard?.writeText(t);toast('Kopiert')}}
+
+/* ===================== RENDER ===================== */
+function nav(){const d=todayDone().length,t=S.mitzvot.length;
+ return `<nav class="tabs"><button class="${tab==='feed'?'on':''}" onclick="go('feed')">${ic('home',23)}Feed</button><button class="${tab==='challenge'?'on':''}" onclick="go('challenge')">${ic('trophy',23)}Challenges</button>
+ <button class="ringbtn" onclick="go('heute')">${ring(d,t)}<span class="lbl">${d}<small>/${t}</small></span></button>
+ <button class="${tab==='community'?'on':''}" onclick="go('community')">${ic('people',23)}Community</button><button class="${['profil','settings','admin'].includes(tab)?'on':''}" onclick="go('profil')">${ic('user',23)}Profil</button></nav>`}
+function refreshNav(){const n=document.querySelector('nav.tabs');if(n)n.outerHTML=nav()}
+function render(){if(!S.onboarded)return renderOnboarding();
+ const V={heute:vHeute,feed:vFeed,challenge:vChallenge,community:vCommunity,profil:vProfile,settings:vSettings,admin:vAdmin}[tab]||vHeute;
+ $('#app').innerHTML=`<div class="view">${V()}</div>${nav()}`}
+render();
+setInterval(()=>{if(Math.random()<.6){globalBase+=1+Math.floor(Math.random()*3);const g=num(globalBase+totalDone());['#gnum','#gnum2'].forEach(s=>{const e=$(s);if(e)e.textContent=g})}},2500);
+</script>
+</body>
+</html>
